@@ -48,7 +48,11 @@ const customFilterWords = [];
 const FILTER_WORDS = new Set([...stopWords, ...customFilterWords].map(w => w.toLowerCase()));
 
 // ---------------------- Helper regex / parsers ----------------------
+// Supported line starts:
+// 1) 13/10/2019, 03:35 - Name: message
+// 2) [22-04-2022, 12:26:14] Name: message
 const lineStartRe = /^(\d{1,2}\/\d{1,2}\/\d{2,4}),\s*(\d{1,2}:\d{2})\s*-\s*/;
+const lineStartBracketRe = /^\[(\d{1,2})-(\d{1,2})-(\d{2,4}),\s*(\d{1,2}):(\d{2})(?::(\d{2}))?\]\s*/;
 const senderSplitRe = /^(.*?):\s*(.*)$/;
 const wordTokenRe = /[A-Za-zÀ-ÖØ-öø-ÿ0-9_']+/g;
 const emoji_re = emojiRegex();
@@ -59,6 +63,11 @@ function parseDateTime(dateStr, timeStr) {
     const year = (y < 100) ? (2000 + y) : y;
     const [hour, minute] = timeStr.split(':').map(Number);
     return new Date(year, m - 1, d, hour, minute, 0, 0);
+}
+function parseDateTimeBracket(d, m, y, hh, mm, ss) {
+  const year = (y < 100) ? (2000 + y) : y;
+  const sec = Number.isFinite(ss) ? ss : 0;
+  return new Date(year, m - 1, d, hh, mm, sec, 0);
 }
 
 function tokenizeWords(text) {
@@ -134,38 +143,53 @@ async function main() {
             if (current) { current.text += '\n'; continuationLines++; }
             continue;
         }
-        const m = line.match(lineStartRe);
+      const m = line.match(lineStartRe);
+      const b = m ? null : line.match(lineStartBracketRe);
+      if (m || b) {
+        let timestamp, timeStr, rest;
         if (m) {
-            const dateStr = m[1];
-            const timeStr = m[2];
-            const rest = line.slice(m[0].length);
-            let sender = 'system';
-            let text = rest;
+          const dateStr = m[1];
+          timeStr = m[2];
+          rest = line.slice(m[0].length);
+          timestamp = parseDateTime(dateStr, timeStr);
+        } else if (b) {
+          const d = parseInt(b[1], 10);
+          const mo = parseInt(b[2], 10);
+          const y = parseInt(b[3], 10);
+          const hh = parseInt(b[4], 10);
+          const mm = parseInt(b[5], 10);
+          const ss = b[6] != null ? parseInt(b[6], 10) : 0;
+          timestamp = parseDateTimeBracket(d, mo, y, hh, mm, ss);
+          timeStr = String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0');
+          rest = line.slice(b[0].length);
+        }
 
-            const s = rest.match(senderSplitRe);
-            if (s) {
-                sender = s[1].trim();
-                if (meName && sender.toLowerCase() === 'you') sender = meName;
-                text = s[2] || '';
-            } else {
-                sender = 'system';
-                systemLines++;
-            }
-            if (current) messages.push(current);
+        let sender = 'system';
+        let text = rest;
 
-            const timestamp = parseDateTime(dateStr, timeStr);
-            current = {
-                id: messages.length,
-                timestamp,
-                date: timestamp.toISOString().slice(0, 10),
-                time: timeStr,
-                hour: timestamp.getHours(),
-                sender,
-                text: text,
-                length: text.length
-            };
-            sendersSet.add(sender);
+        const s = rest.match(senderSplitRe);
+        if (s) {
+          sender = s[1].trim();
+          if (meName && sender.toLowerCase() === 'you') sender = meName;
+          text = s[2] || '';
         } else {
+          sender = 'system';
+          systemLines++;
+        }
+        if (current) messages.push(current);
+
+        current = {
+          id: messages.length,
+          timestamp,
+          date: timestamp.toISOString().slice(0, 10),
+          time: timeStr,
+          hour: timestamp.getHours(),
+          sender,
+          text: text,
+          length: text.length
+        };
+        sendersSet.add(sender);
+      } else {
             if (current) {
                 current.text += '\n' + line;
                 current.length = current.text.length;
