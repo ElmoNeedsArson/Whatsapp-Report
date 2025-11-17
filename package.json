@@ -1,0 +1,17 @@
+{
+  "name": "whatsapp-report",
+  "version": "1.0.0",
+  "description": "",
+  "main": "whatsapp_report.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "chart.js": "^4.5.1",
+    "emoji-regex": "^10.6.0"
+  }
+}
