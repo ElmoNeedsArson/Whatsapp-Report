@@ -46,7 +46,7 @@ De blauwe balk, helemaal onder in het scherm kan je omhoog trekken. Dan ziet het
 Switch naar terminal:
 <img width="1429" height="938" alt="image" src="https://github.com/user-attachments/assets/e320c226-753d-4eb3-9940-81735b1a6d9a" />
 
-Sleep je whatsapp export.txt bestand the vscode folder in, en rename de file naar een korter makkelijkere naam, ik doe vaak chat.txt
+Unzip je whatsapp export, en sleep je whatsapp export.txt bestand the vscode folder in, en rename de file naar een korter makkelijkere naam, ik doe vaak chat.txt
 
 na je dat gedaan hebt ren deze command:
 ```bash
@@ -54,6 +54,7 @@ node whatsapp_report.js chat.txt --verbose
 ```
 
 Als het goed is zie je links in je file tree nu een report.html bestand. Als je deze right clicked en dan de optie "open with live server" doet, zie je hem in de browser. Je kan hem ook gewoon dubbel klikken in je normale file explorer, dan opent ie automatisch in de browser 
+
 
 
 
