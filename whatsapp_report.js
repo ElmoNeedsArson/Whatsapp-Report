@@ -42,7 +42,8 @@ const stopWords = [
     "ok", "oke", "oké", "jaaa", "neehee",
     "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "10",
     "t", "i", "ga", "of", "mn", "m'n", "m", "https", "it", "ie", "a", "n",
-    "message", "deleted", "this", "you", "the", "was", "media", "omitted", "votes", "poll", "option"
+    "message", "deleted", "this", "you", "the", "was", "media", "omitted", "votes", "poll", "option",
+    "afbeelding", "weggelaten"
 ];
 const customFilterWords = [];
 const FILTER_WORDS = new Set([...stopWords, ...customFilterWords].map(w => w.toLowerCase()));
