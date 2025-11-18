@@ -7,7 +7,7 @@ Zorg dat je vscode en node geintstalleerd hebt:
 - https://nodejs.org/en/download
 
 ## Stap 1
-Om de tool te runnen, zul je eerst je chat op whatsapp moeten exporten.
+Om de tool te runnen, zul je eerst je chat op whatsapp moeten exporten. Dit moet op je telefoon, de desktop app werkt niet. De gedownloade zip folder moet je vervolgens op je computer zetten
 
 |![whatsapp_export_1](https://github.com/user-attachments/assets/31cacc53-a5e1-42a0-aa7d-7b36c311796b)|![whatsapp_export_2](https://github.com/user-attachments/assets/0dddb310-18a2-48a5-bedb-fde181d89fc2)|![whatsapp_export_3](https://github.com/user-attachments/assets/ce5d3423-f09e-4114-b5bb-af3b8ebc071f)|
 |:--:|:--:|:--:|
@@ -59,6 +59,7 @@ node whatsapp_report.js chat.txt --verbose
 ```
 
 Als het goed is zie je links in je file tree nu een report.html bestand. Als je deze right clicked en dan de optie "open with live server" doet, zie je hem in de browser. Je kan hem ook gewoon dubbel klikken in je normale file explorer, dan opent ie automatisch in de browser 
+
 
 
 
