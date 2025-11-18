@@ -1,6 +1,11 @@
 # Waarschuwing
 Dit is een dahsboard maker voor je whatsapp chats. Deze tool is extreem hevig gevibecode, maar gebruikt geen externe api's en dergelijke, t laad alleen wat libraries in, maar is vgm vrij private. 
 
+## Stap 0
+Zorg dat je vscode en node geintstalleerd hebt:
+- https://code.visualstudio.com/download
+- https://nodejs.org/en/download
+
 ## Stap 1
 Om de tool te runnen, zul je eerst je chat op whatsapp moeten exporten.
 
@@ -54,6 +59,7 @@ node whatsapp_report.js chat.txt --verbose
 ```
 
 Als het goed is zie je links in je file tree nu een report.html bestand. Als je deze right clicked en dan de optie "open with live server" doet, zie je hem in de browser. Je kan hem ook gewoon dubbel klikken in je normale file explorer, dan opent ie automatisch in de browser 
+
 
 
 
